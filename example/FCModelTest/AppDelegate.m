@@ -22,6 +22,9 @@
     // New DB on every launch for testing (comment out for persistence testing)
     [NSFileManager.defaultManager removeItemAtPath:dbPath error:NULL];
     
+#ifdef TEST_CLASS_PREFIX
+    [FCModel setClassPrefix:@"FC"];
+#endif
     [FCModel openDatabaseAtPath:dbPath withSchemaBuilder:^(FMDatabase *db, int *schemaVersion) {
         [db setCrashOnErrors:YES];
         db.traceExecution = YES; // Log every query (useful to learn what FCModel is doing or analyze performance)
@@ -82,12 +85,12 @@
         @"gray1" : @"8E8E93",
         @"gray2" : @"C6C6CC",
     } enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *hex, BOOL *stop) {
-        Color *c = [Color instanceWithPrimaryKey:name];
+        COLOR_CLASS *c = [COLOR_CLASS instanceWithPrimaryKey:name];
         c.hex = hex;
         [c save];
     }];
     
-    NSArray *allColors = [Color allInstances];
+    NSArray *allColors = [COLOR_CLASS allInstances];
 
     // Comment/uncomment this to see caching/retention behavior.
     // Without retaining these, scroll the collectionview, and you'll see each cell performing a SELECT to look up its color.
@@ -97,16 +100,16 @@
     NSMutableSet *colorsUsedAlready = [NSMutableSet set];
     
     // Put some data in the table if there's not enough
-    int numPeople = [[Person firstValueFromQuery:@"SELECT COUNT(*) FROM $T"] intValue];
+    int numPeople = [[PERSON_CLASS firstValueFromQuery:@"SELECT COUNT(*) FROM $T"] intValue];
     while (numPeople < 26) {
-        Person *p = [Person new];
+        PERSON_CLASS *p = [PERSON_CLASS new];
         p.name = [RandomThings randomName];
         
         if (colorsUsedAlready.count >= allColors.count) [colorsUsedAlready removeAllObjects];
         
-        Color *color;
+        COLOR_CLASS *color;
         do {
-            color = (Color *) allColors[([RandomThings randomUInt32] % allColors.count)];
+            color = (COLOR_CLASS *) allColors[([RandomThings randomUInt32] % allColors.count)];
         } while ([colorsUsedAlready member:color] && colorsUsedAlready.count < allColors.count);
 
         [colorsUsedAlready addObject:color];
