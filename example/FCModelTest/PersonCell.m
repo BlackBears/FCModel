@@ -9,13 +9,14 @@
 #import "PersonCell.h"
 
 
+
 @interface PersonCell ()
-@property (nonatomic) Person *person;
+@property (nonatomic) PERSON_CLASS *person;
 @end
 
 @implementation PersonCell
 
-- (void)configureWithPerson:(Person *)person
+- (void)configureWithPerson:(PERSON_CLASS *)person
 {
     if (self.person) {
         [self.person removeObserver:self forKeyPath:@"name"];
@@ -34,12 +35,12 @@
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(Person *)person change:(NSDictionary *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(PERSON_CLASS *)person change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"name"]) {
         self.nameLabel.text = person.name;
     } else if ([keyPath isEqualToString:@"colorName"]) {
-        Color *c = person.color;
+        COLOR_CLASS *c = person.color;
         self.backgroundColor = c ? c.colorValue : [UIColor clearColor];
         self.colorLabel.text = c ? c.name : @"(invalid)";
     } else if ([keyPath isEqualToString:@"taps"]) {

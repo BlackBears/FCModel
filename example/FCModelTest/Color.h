@@ -8,7 +8,7 @@
 
 #import "FCModel.h"
 
-@interface Color : FCModel
+@interface COLOR_CLASS : FCModel
 
 @property (readonly) UIColor *colorValue; // not a database column
 @property (nonatomic) NSString *name; // database primary key (doesn't have to be an integer)

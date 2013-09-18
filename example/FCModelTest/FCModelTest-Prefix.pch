@@ -14,3 +14,13 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define TEST_CLASS_PREFIX
+
+#ifdef TEST_CLASS_PREFIX
+    #define PERSON_CLASS FCPerson
+    #define COLOR_CLASS FCColor
+#else
+    #define PERSON_CLASS Person
+    #define COLOR_CLASS Color
+#endif

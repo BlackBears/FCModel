@@ -9,7 +9,7 @@
 #import "FCModel.h"
 #import "Color.h"
 
-@interface Person : FCModel
+@interface PERSON_CLASS : FCModel
 
 // database columns:
 @property (nonatomic, assign) int64_t id;
@@ -19,7 +19,8 @@
 @property (nonatomic) NSDate *createdTime;
 @property (nonatomic) NSDate *modifiedTime;
 
+
 // non-columns:
-@property (nonatomic) Color *color;
+@property (nonatomic) COLOR_CLASS *color;
 
 @end
