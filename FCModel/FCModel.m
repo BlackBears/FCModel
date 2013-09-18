@@ -24,6 +24,7 @@ static NSString * const FCModelClassKey           = @"class";
 static FMDatabaseQueue *g_databaseQueue = NULL;
 static NSMutableDictionary *g_fieldInfo = NULL;
 static NSMutableDictionary *g_primaryKeyFieldName = NULL;
+static NSString *g_classPrefix = nil;
 
 
 @interface FMDatabase (HackForVAListsSinceThisIsPrivate)
@@ -99,6 +100,10 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
     }
     
     [NSNotificationCenter.defaultCenter postNotificationName:FCModelReloadNotification object:nil userInfo:@{ FCModelClassKey : self }];
+}
+
++ (void)setClassPrefix:(NSString *)prefix {
+    g_classPrefix = prefix;
 }
 
 - (void)saveToCache
@@ -553,7 +558,10 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
     NSArray *columnNames;
     NSMutableArray *values;
     
-    NSString *tableName = NSStringFromClass(self.class);
+    NSString *className = NSStringFromClass(self.class);
+    if( g_classPrefix )
+        className = [className stringByReplacingOccurrencesOfString:g_classPrefix withString:@""];
+    NSString *tableName = className;
     NSString *pkName = g_primaryKeyFieldName[self.class];
     id primaryKey = primaryKeySet ? [self encodedValueForFieldName:pkName] : nil;
     if (! primaryKey) {
