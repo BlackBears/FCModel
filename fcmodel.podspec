@@ -4,12 +4,9 @@ Pod::Spec.new do |s|
   s.summary      = "An alternative to Core Data for people who like having direct SQL access."
 
   s.description  = <<-DESC
-                   A longer description of fcmodel in Markdown format.
+                   ### FCModel ###
 
-                   * Think: Why did you write this? What is the focus? What does it do?
-                   * CocoaPods will be using this to generate tags, and improve search results.
-                   * Try to keep it short, snappy and to the point.
-                   * Finally, don't worry about the indent, CocoaPods strips it!
+			A sqlite to Objective-C object mapping tool.
                    DESC
 
   s.homepage     = "https://github.com/cocoa-factory/FCModel"
