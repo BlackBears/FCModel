@@ -695,7 +695,10 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
 {
     if (self == FCModel.class) return query;
     query = [query stringByReplacingOccurrencesOfString:@"$PK" withString:g_primaryKeyFieldName[self]];
-    return [query stringByReplacingOccurrencesOfString:@"$T" withString:NSStringFromClass(self)];
+    NSString *tableName = NSStringFromClass(self);
+    if( g_classPrefix )
+        tableName = [tableName stringByReplacingOccurrencesOfString:g_classPrefix withString:@""];
+    return [query stringByReplacingOccurrencesOfString:@"$T" withString:tableName];
 }
 
 - (NSString *)description
@@ -749,7 +752,8 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
         ];
         while ([tablesRS next]) {
             NSString *tableName = [tablesRS stringForColumnIndex:0];
-            Class tableModelClass = NSClassFromString(tableName);
+            NSString *className = (g_classPrefix)?[NSString stringWithFormat:@"%@%@",g_classPrefix,tableName]:tableName;
+            Class tableModelClass = NSClassFromString(className);
             if (! tableModelClass || ! [tableModelClass isSubclassOfClass:self]) continue;
             
             NSString *primaryKeyName = nil;

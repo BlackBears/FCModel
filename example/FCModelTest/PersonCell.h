@@ -11,7 +11,11 @@
 
 @interface PersonCell : UICollectionViewCell
 
+#ifdef TEST_CLASS_PREFIX
+- (void)configureWithPerson:(FCPerson *)person;
+#else
 - (void)configureWithPerson:(Person *)person;
+#endif
 
 @property (nonatomic) IBOutlet UILabel *idLabel;
 @property (nonatomic) IBOutlet UILabel *nameLabel;

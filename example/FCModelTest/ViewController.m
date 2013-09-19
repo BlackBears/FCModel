@@ -25,21 +25,21 @@
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"PersonCell"];
     
     [self reloadPeople:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadPeople:) name:FCModelInsertNotification object:Person.class];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadPeople:) name:FCModelDeleteNotification object:Person.class];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadPeople:) name:FCModelInsertNotification object:PERSON_CLASS.class];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(reloadPeople:) name:FCModelDeleteNotification object:PERSON_CLASS.class];
 }
 
 - (void)reloadPeople:(NSNotification *)notification
 {
-    self.people = [Person allInstances];
+    self.people = [PERSON_CLASS allInstances];
     NSLog(@"Reloading with %lu people", (unsigned long) self.people.count);
     [self.collectionView reloadData];
 }
 
 - (void)dealloc
 {
-    [NSNotificationCenter.defaultCenter removeObserver:self name:FCModelInsertNotification object:Person.class];
-    [NSNotificationCenter.defaultCenter removeObserver:self name:FCModelDeleteNotification object:Person.class];
+    [NSNotificationCenter.defaultCenter removeObserver:self name:FCModelInsertNotification object:PERSON_CLASS.class];
+    [NSNotificationCenter.defaultCenter removeObserver:self name:FCModelDeleteNotification object:PERSON_CLASS.class];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -48,7 +48,7 @@
 {
     [textField resignFirstResponder];
     
-    NSError *error = [Person executeUpdateQuery:self.queryField.text];
+    NSError *error = [PERSON_CLASS executeUpdateQuery:self.queryField.text];
     if (error) {
         [[[UIAlertView alloc] initWithTitle:@"Query Failed" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Oops" otherButtonTitles:nil] show];
     }
@@ -75,7 +75,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Person *p = (Person *) self.people[indexPath.row];
+    PERSON_CLASS *p = (PERSON_CLASS *) self.people[indexPath.row];
     p.taps = p.taps + 1;
     [p save];
     

@@ -50,6 +50,9 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
 //
 + (void)dataWasUpdatedExternally;
 
+<<<<<<< HEAD
++ (NSString *)classPrefix;
+=======
 /**
  *	Sets class prefix
  *
@@ -60,7 +63,8 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
  *
  *	@param	prefix	The string prepended to the table name to represnt the 
  *                  the class name
-+ (NSString *)classPrefix;
+ */
+>>>>>>> 6f321a0a42760863198cdbbb8615a200e628e7f7
 + (void)setClassPrefix:(NSString *)prefix;
 
 // Or use this convenience method, which calls dataWasUpdatedExternally automatically and offers $T/$PK parsing.

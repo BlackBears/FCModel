@@ -8,7 +8,7 @@
 
 #import "Person.h"
 
-@implementation Person
+@implementation PERSON_CLASS
 
 - (BOOL)shouldInsert
 {
@@ -23,12 +23,12 @@
     return YES;
 }
 
-- (Color *)color
+- (COLOR_CLASS *)color
 {
-    return [Color instanceWithPrimaryKey:self.colorName];
+    return [COLOR_CLASS instanceWithPrimaryKey:self.colorName];
 }
 
-- (void)setColor:(Color *)color
+- (void)setColor:(COLOR_CLASS *)color
 {
     self.colorName = color.name;
 }
