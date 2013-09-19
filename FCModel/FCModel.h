@@ -60,9 +60,9 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
  *
  *	@param	prefix	The string prepended to the table name to represnt the 
  *                  the class name
-+ (NSString *)classPrefix;
+*/
 + (void)setClassPrefix:(NSString *)prefix;
-
++ (NSString *)classPrefix;
 // Or use this convenience method, which calls dataWasUpdatedExternally automatically and offers $T/$PK parsing.
 // If you don't know which tables will be affected, or if it will affect more than one, call on FCModel, not a subclass.
 // Only call on a subclass if only that model's table will be affected.
