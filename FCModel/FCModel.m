@@ -559,8 +559,8 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
     NSMutableArray *values;
     
     NSString *className = NSStringFromClass(self.class);
-    if( g_classPrefix )
-        className = [className stringByReplacingOccurrencesOfString:g_classPrefix withString:@""];
+    if( [FCModel classPrefix] )
+        className = [className stringByReplacingOccurrencesOfString:[FCModel classPrefix] withString:@""];
     NSString *tableName = className;
     NSString *pkName = g_primaryKeyFieldName[self.class];
     id primaryKey = primaryKeySet ? [self encodedValueForFieldName:pkName] : nil;
@@ -679,6 +679,12 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
 + (void)saveAll
 {
     [NSNotificationCenter.defaultCenter postNotificationName:FCModelSaveNotification object:nil userInfo:@{ FCModelClassKey : self }];
+}
+
+#pragma mark - Accessors
+
++ (NSString *)classPrefix {
+    return g_classPrefix;
 }
 
 #pragma mark - Utilities

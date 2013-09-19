@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
 @property (readonly) BOOL existsInDatabase;
 @property (readonly) NSError *lastSQLiteError;
 
+
 + (void)openDatabaseAtPath:(NSString *)path withSchemaBuilder:(void (^)(FMDatabase *db, int *schemaVersion))schemaBuilder;
 
 // Feel free to operate on the same database queue with your own queries (IMPORTANT: READ THE NEXT METHOD DEFINITION)
@@ -49,6 +50,7 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
 //
 + (void)dataWasUpdatedExternally;
 
++ (NSString *)classPrefix;
 + (void)setClassPrefix:(NSString *)prefix;
 
 // Or use this convenience method, which calls dataWasUpdatedExternally automatically and offers $T/$PK parsing.
