@@ -24,8 +24,7 @@ static NSString * const FCModelClassKey           = @"class";
 static FMDatabaseQueue *g_databaseQueue = NULL;
 static NSMutableDictionary *g_fieldInfo = NULL;
 static NSMutableDictionary *g_primaryKeyFieldName = NULL;
-static NSString *g_classPrefix = nil;
-
+static NSString *g_classPrefix = NULL;
 
 @interface FMDatabase (HackForVAListsSinceThisIsPrivate)
 - (FMResultSet *)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray*)arrayArgs orDictionary:(NSDictionary *)dictionaryArgs orVAList:(va_list)args;
@@ -100,10 +99,6 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
     }
     
     [NSNotificationCenter.defaultCenter postNotificationName:FCModelReloadNotification object:nil userInfo:@{ FCModelClassKey : self }];
-}
-
-+ (void)setClassPrefix:(NSString *)prefix {
-    g_classPrefix = prefix;
 }
 
 - (void)saveToCache
@@ -687,17 +682,24 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
     return g_classPrefix;
 }
 
++ (void)setClassPrefix:(NSString *)prefix {
+    g_classPrefix = prefix;
+}
+
 #pragma mark - Utilities
 
-- (id)primaryKey { return [self valueForKey:g_primaryKeyFieldName[self.class]]; }
+- (id)primaryKey {
+    return [self valueForKey:g_primaryKeyFieldName[self.class]];
+}
 
 + (NSString *)expandQuery:(NSString *)query
 {
     if (self == FCModel.class) return query;
     query = [query stringByReplacingOccurrencesOfString:@"$PK" withString:g_primaryKeyFieldName[self]];
     NSString *tableName = NSStringFromClass(self);
-    if( g_classPrefix )
-        tableName = [tableName stringByReplacingOccurrencesOfString:g_classPrefix withString:@""];
+    NSString *prefix = [FCModel classPrefix];
+    if( prefix )
+        tableName = [tableName stringByReplacingOccurrencesOfString:prefix withString:@""];
     return [query stringByReplacingOccurrencesOfString:@"$T" withString:tableName];
 }
 
@@ -752,7 +754,8 @@ typedef NS_ENUM(NSInteger, FCFieldType) {
         ];
         while ([tablesRS next]) {
             NSString *tableName = [tablesRS stringForColumnIndex:0];
-            NSString *className = (g_classPrefix)?[NSString stringWithFormat:@"%@%@",g_classPrefix,tableName]:tableName;
+            NSString *prefix = [FCModel classPrefix];
+            NSString *className = (prefix)?[NSString stringWithFormat:@"%@%@",prefix,tableName]:tableName;
             Class tableModelClass = NSClassFromString(className);
             if (! tableModelClass || ! [tableModelClass isSubclassOfClass:self]) continue;
             

@@ -50,19 +50,9 @@ typedef NS_ENUM(NSInteger, FCModelSaveResult) {
 //
 + (void)dataWasUpdatedExternally;
 
-/**
- *	Sets class prefix
- *
- *  If a class prefix is not set, the table name maps directly to the FCModel subclass name.  When
- *  A class name is set all of each of the FCModel subclasses should be prepended with the prefix. 
- *  For example, to map the sqlite table name Person to FCPerson, the class prefix should be set
- *  to @"FC"
- *
- *	@param	prefix	The string prepended to the table name to represnt the 
- *                  the class name
-*/
 + (void)setClassPrefix:(NSString *)prefix;
 + (NSString *)classPrefix;
+
 // Or use this convenience method, which calls dataWasUpdatedExternally automatically and offers $T/$PK parsing.
 // If you don't know which tables will be affected, or if it will affect more than one, call on FCModel, not a subclass.
 // Only call on a subclass if only that model's table will be affected.
