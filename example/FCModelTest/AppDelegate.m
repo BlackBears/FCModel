@@ -18,8 +18,6 @@
 {
     NSString *dbPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"testDB.sqlite3"];
     NSLog(@"DB path: %@", dbPath);
-    
-    [FCModel setClassPrefix:@"CCF"];
 
     // New DB on every launch for testing (comment out for persistence testing)
     [NSFileManager.defaultManager removeItemAtPath:dbPath error:NULL];
